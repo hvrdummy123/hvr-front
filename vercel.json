@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/auth/:path*", "destination": "https://35-209-15-204.sslip.io/api/auth/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
