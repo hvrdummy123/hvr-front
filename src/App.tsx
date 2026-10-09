@@ -3,6 +3,7 @@ import { Sidebar } from "./components/Sidebar";
 import { Thread } from "./components/Thread";
 import { authClient, clearToken } from "./lib/auth";
 import { useChat } from "./useChat";
+import { ResetPassword } from "./components/ResetPassword";
 
 function ChatApp({ me }: { me: { id: string; name: string } }) {
   const chat = useChat(me.id);
@@ -41,9 +42,15 @@ function ChatApp({ me }: { me: { id: string; name: string } }) {
   );
 }
 
-export default function App() {
+function Main() {
   const { data, isPending } = authClient.useSession();
   if (isPending) return <main className="auth"><p className="muted">Loading…</p></main>;
   if (!data?.user) return <AuthForm />;
   return <ChatApp key={data.user.id} me={{ id: data.user.id, name: data.user.name }} />;
+}
+
+export default function App() {
+  // The emailed reset link lands here (Vercel serves index.html for every path).
+  if (window.location.pathname === "/reset-password") return <ResetPassword />;
+  return <Main />;
 }
